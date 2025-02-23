@@ -9,7 +9,7 @@ const RootLayout = () => {
     <>
       <div className="min-h-[100dvh] flex flex-col overflow-hidden">
         <Header />
-        <main className="grow">
+        <main className="grow grid grid-cols-1 items-center pt-36 pb-16">
           <Outlet />
         </main>
         <Footer />

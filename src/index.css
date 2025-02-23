@@ -70,6 +70,9 @@
   .container {
     @apply mx-auto px-4;
   }
+  .gradient-span {
+    @apply bg-gradient-to-t from-primary/50 to-primary/30 rounded-full px-2 overflow-hidden
+  }
 }
 
 
