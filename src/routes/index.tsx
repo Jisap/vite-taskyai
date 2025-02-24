@@ -1,5 +1,6 @@
 import RootLayout from "@/layouts/RootLayout";
 import HomePage from "@/pages/HomePage";
+import RootErrorBoundary from "@/pages/RootErrorBoundary";
 import { createBrowserRouter } from "react-router";
 import type { RouteObject } from "react-router";
 
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
+    errorElement: <RootErrorBoundary />,
     children: rootRouteChildren
   }
 ])
