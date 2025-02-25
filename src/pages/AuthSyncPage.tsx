@@ -21,9 +21,9 @@ const AuthSyncPage = () => {
       navigate("/");
       return;
     }
-    if(isSignedIn){
+    if(isSignedIn){                                // Si el user está logueado, guarda su userId en localStorage
       localStorage.setItem("clerkUserId", userId);
-      navigate("app/today")
+      navigate("app/today")                        // y redirige al app/today
     }
   },[userId, isLoaded, isSignedIn])
 

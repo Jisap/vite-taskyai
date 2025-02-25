@@ -19,8 +19,8 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ClerkProvider 
       publishableKey={PUBLISHABLE_KEY} 
-      afterSignOutUrl="/auth-sync"
-      signInForceRedirectUrl={SIGN_IN_FORCE_REDIRECT_URL}
+      afterSignOutUrl="/auth-sync"                            // Redirect al login si el user se desconecta
+      signInForceRedirectUrl={SIGN_IN_FORCE_REDIRECT_URL}     
       signUpForceRedirectUrl={SIGN_UP_FORCE_REDIRECT_URL}
       appearance={{
         baseTheme: dark,
