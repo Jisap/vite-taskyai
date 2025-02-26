@@ -70,10 +70,16 @@ const AppSidebar = () => {
         </SidebarGroup>
 
         {/* All projects */}
-        <Collapsible className="group/collapsible">
+        <Collapsible 
+          className="group/collapsible"
+          defaultOpen
+        >
           <SidebarGroup>
-            <SidebarGroupLabel asChild>
-              <CollapsibleTrigger className="text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+            <SidebarGroupLabel 
+              asChild
+              className="text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"  
+            >
+              <CollapsibleTrigger>
                 <ChevronRight className="me-2 transition-transform group-data-[state=open]/collapsible:rotate-90"/>
                 Projects
               </CollapsibleTrigger>

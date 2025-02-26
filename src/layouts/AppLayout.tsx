@@ -9,7 +9,10 @@ import { Outlet } from "react-router"
 const AppLayout = () => {
   return (
     <SidebarProvider>
-      <TooltipProvider>
+      <TooltipProvider 
+        disableHoverableContent
+        delayDuration={500}
+      >
         <AppSidebar />
         <SidebarTrigger />
         <div>AppLayout</div>
