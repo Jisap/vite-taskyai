@@ -15,7 +15,7 @@ const AuthSyncPage = () => {
     if(!isLoaded) return;
 
     if(!isSignedIn) {                              // Redirect a homepage si el user no está logueado
-      if(localStorage.getItem("clerkUserId")){     // Si el user ya está logueado, borra la cookie (usar para el caso de logout)
+      if(localStorage.getItem("clerkUserId")){     // Si existe un userId en localStorage, borra la cookie (usar para el caso de logout)
         localStorage.removeItem("clerkUserId");
       }
       navigate("/");
