@@ -29,6 +29,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "./ui/tooltip"
+import TaskFormDialog from "./TaskFormDialog"
 
 
 
@@ -48,9 +49,11 @@ const AppSidebar = () => {
             <SidebarMenu>
               {/* Task create button  */}
               <SidebarMenuItem>
-                <SidebarMenuButton className="!text-primary">
-                  <CirclePlus /> Add
-                </SidebarMenuButton>
+                <TaskFormDialog>
+                  <SidebarMenuButton className="!text-primary">
+                    <CirclePlus /> Add
+                  </SidebarMenuButton>
+                </TaskFormDialog>
               </SidebarMenuItem>
 
               {/* sidebar links */}
