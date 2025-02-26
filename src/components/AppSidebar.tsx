@@ -6,10 +6,29 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
+  SidebarGroupContent,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarMenuBadge,
+  SidebarGroupAction,
+  SidebarGroupLabel,
 } from "@/components/ui/sidebar"
 import Logo from "./Logo"
 import { UserButton } from "@clerk/clerk-react"
+import { CirclePlus, Plus, ChevronRight } from "lucide-react"
+import { SIDEBAR_LINKS } from "@/constants"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import { 
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "./ui/tooltip"
 
 
 
@@ -22,10 +41,70 @@ const AppSidebar = () => {
           <Logo />
         </Link>
       </SidebarHeader>
+
       <SidebarContent>
-        <SidebarGroup />
-        <SidebarGroup />
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {/* Task create button  */}
+              <SidebarMenuItem>
+                <SidebarMenuButton className="!text-primary">
+                  <CirclePlus /> Add
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* sidebar links */}
+              {SIDEBAR_LINKS.map((item, index) => (
+                <SidebarMenuItem key={index}>
+                  <SidebarMenuButton asChild>
+                    <Link to={item.href} className="">
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                  <SidebarMenuBadge>0</SidebarMenuBadge>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* All projects */}
+        <Collapsible className="group/collapsible">
+          <SidebarGroup>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger className="text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+                <ChevronRight className="me-2 transition-transform group-data-[state=open]/collapsible:rotate-90"/>
+                Projects
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SidebarGroupAction aria-label="Add project">
+                  <Plus />
+                </SidebarGroupAction>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                Add Project
+              </TooltipContent>
+            </Tooltip>
+
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <p className="text-muted-foreground text-sm p-2">
+                      Click + to add some project.
+                    </p>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
       </SidebarContent>
+
       <SidebarFooter>
         <UserButton 
           showName
