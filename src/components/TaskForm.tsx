@@ -1,4 +1,4 @@
-import { CalendarIcon, X, Inbox, ChevronDown, Hash } from "lucide-react"
+import { CalendarIcon, X, Inbox, ChevronDown, Hash, SendHorizonal } from "lucide-react"
 import { Button } from "./ui/button"
 import { Calendar } from "./ui/calendar"
 import { 
@@ -82,8 +82,8 @@ const TaskForm = () => {
 
       <Separator />
 
-      <CardFooter>
-        <Popover>
+      <CardFooter className="grid grid-cols-[minmax(0,1fr),max-content] gap-2 p-2">
+        <Popover modal>
           <PopoverTrigger asChild>
             <Button
               variant="ghost"
@@ -95,7 +95,7 @@ const TaskForm = () => {
             </Button>
           </PopoverTrigger>
 
-          <PopoverContent>
+          <PopoverContent className="w-[240px] p-0" align="start">
             <Command>
               <CommandInput 
                 placeholder="Search project ..."
@@ -125,6 +125,18 @@ const TaskForm = () => {
             </Command>
           </PopoverContent>
         </Popover>
+
+        <div className="flex items-center gap-2">
+          <Button variant="secondary">
+            <span className="max-md:hidden">Cancel</span>
+            <X className="md:hidden"/>
+          </Button>
+
+          <Button>
+            <span className="max-md:hidden">Add task</span>
+            <SendHorizonal className="md:hidden"/>
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   )
