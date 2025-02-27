@@ -1,4 +1,4 @@
-import { CalendarIcon, X } from "lucide-react"
+import { CalendarIcon, X, Inbox, ChevronDown, Hash } from "lucide-react"
 import { Button } from "./ui/button"
 import { Calendar } from "./ui/calendar"
 import { 
@@ -79,6 +79,53 @@ const TaskForm = () => {
           </Tooltip>
         </div>
       </CardContent>
+
+      <Separator />
+
+      <CardFooter>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              role="combobox"
+              aria-expanded={false}
+              className="max-w-max"
+            >
+              <Inbox /> Inbox <ChevronDown />
+            </Button>
+          </PopoverTrigger>
+
+          <PopoverContent>
+            <Command>
+              <CommandInput 
+                placeholder="Search project ..."
+              />
+              <CommandList>
+                <ScrollArea>
+                  <CommandEmpty>No project found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem>
+                      <Hash /> Project 1
+                    </CommandItem>
+                    <CommandItem>
+                      <Hash /> Project 2
+                    </CommandItem>
+                    <CommandItem>
+                      <Hash /> Project 3
+                    </CommandItem>
+                    <CommandItem>
+                      <Hash /> Project 4
+                    </CommandItem>
+                    <CommandItem>
+                      <Hash /> Project 5
+                    </CommandItem>
+                  </CommandGroup>
+                </ScrollArea>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </CardFooter>
     </Card>
   )
 }
