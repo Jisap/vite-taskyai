@@ -1,4 +1,4 @@
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, X } from "lucide-react"
 import { Button } from "./ui/button"
 import { Calendar } from "./ui/calendar"
 import { 
@@ -41,7 +41,7 @@ const TaskForm = () => {
           autoFocus
         />
 
-        <div>
+        <div className="ring-1 ring-border rounded-md max-w-max">
           <Popover>
             <PopoverTrigger asChild>
               <Button 
@@ -53,7 +53,7 @@ const TaskForm = () => {
               </Button>
             </PopoverTrigger>
 
-            <PopoverContent>
+            <PopoverContent className="w-auto p-0 ">
               <Calendar 
                 mode="single"
                 disabled={{ before: new Date() }}
@@ -61,6 +61,22 @@ const TaskForm = () => {
               />
             </PopoverContent>
           </Popover>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="px-2 -ms-2"
+                aria-label="Remove due date"
+              >
+                <X />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              Remove due date
+            </TooltipContent>
+          </Tooltip>
         </div>
       </CardContent>
     </Card>
