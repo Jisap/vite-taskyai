@@ -1,3 +1,4 @@
+import { CalendarIcon } from "lucide-react"
 import { Button } from "./ui/button"
 import { Calendar } from "./ui/calendar"
 import { 
@@ -34,7 +35,33 @@ const TaskForm = () => {
   return (
     <Card className="focus-within:border-foreground/30">
       <CardContent className="p-2">
-        <Textarea className="!border-0 !ring-0 mb-2 p-1"/>
+        <Textarea 
+          className="!border-0 !ring-0 mb-2 p-1"
+          placeholder="After finishing the project, Take a tour"
+          autoFocus
+        />
+
+        <div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button 
+                type="button"
+                variant="ghost"  
+                size="sm"
+              >
+                <CalendarIcon /> Due date
+              </Button>
+            </PopoverTrigger>
+
+            <PopoverContent>
+              <Calendar 
+                mode="single"
+                disabled={{ before: new Date() }}
+                initialFocus  
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
       </CardContent>
     </Card>
   )
