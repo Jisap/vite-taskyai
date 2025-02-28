@@ -31,6 +31,7 @@ import {
 import type { ClassValue } from "clsx";
 import type { TaskForm } from "@/types";
 import { useCallback, useEffect, useState } from "react"
+import { formatCustomDate } from "@/lib/utils"
 
 
 
@@ -88,7 +89,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 size="sm"
               >
                 <CalendarIcon /> 
-                {dueDate ? new Date(dueDate).toDateString() : "Due date"}
+                {dueDate ? formatCustomDate(dueDate) : "Due date"}
               </Button>
             </PopoverTrigger>
 
