@@ -31,7 +31,7 @@ import {
 import type { ClassValue } from "clsx";
 import type { TaskForm } from "@/types";
 import { useCallback, useEffect, useState } from "react"
-import { formatCustomDate } from "@/lib/utils"
+import { formatCustomDate, getTaskDueDateColorClass, cn } from "@/lib/utils"
 
 
 
@@ -66,6 +66,23 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [formData, setFormData] = useState(defaultFormData)
   
 
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      content: taskContent,
+      due_date: dueDate,
+      projectId: projectId,
+    }))
+  },[taskContent, dueDate, projectId])
+
+  const handleSubmit = useCallback(() => {
+    if(!taskContent) return;
+  
+    if(onSubmit) onSubmit(formData)
+    
+    setTaskContent("");
+  },[taskContent, formData, onSubmit])
+
   return (
     <Card className="focus-within:border-foreground/30">
       <CardContent className="p-2">
@@ -87,6 +104,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 type="button"
                 variant="ghost"  
                 size="sm"
+                className={cn(getTaskDueDateColorClass(dueDate, false))}
               >
                 <CalendarIcon /> 
                 {dueDate ? formatCustomDate(dueDate) : "Due date"}
@@ -106,34 +124,42 @@ const TaskForm: React.FC<TaskFormProps> = ({
             </PopoverContent>
           </Popover>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="px-2 -ms-2"
-                aria-label="Remove due date"
-              >
-                <X />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              Remove due date
-            </TooltipContent>
-          </Tooltip>
+          {dueDate && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="px-2 -ms-2"
+                  aria-label="Remove due date"
+                  onClick={() => setDueDate(null)}
+                >
+                  <X />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                Remove due date
+              </TooltipContent>
+            </Tooltip>
+          )}
         </div>
       </CardContent>
 
       <Separator />
 
       <CardFooter className="grid grid-cols-[minmax(0,1fr),max-content] gap-2 p-2">
-        <Popover modal>
+        <Popover 
+          modal
+          open={projectOpen}
+          onOpenChange={setProjectOpen}  
+        >
           <PopoverTrigger asChild>
             <Button
               variant="ghost"
               role="combobox"
               aria-expanded={false}
               className="max-w-max"
+              onClick={onCancel}
             >
               <Inbox /> Inbox <ChevronDown />
             </Button>
@@ -176,8 +202,13 @@ const TaskForm: React.FC<TaskFormProps> = ({
             <X className="md:hidden"/>
           </Button>
 
-          <Button>
-            <span className="max-md:hidden">Add task</span>
+          <Button 
+            disabled={!taskContent}
+            onClick={handleSubmit}  
+          >
+            <span className="max-md:hidden">
+              {mode === "create" ? "Add task" : "Save"}
+            </span>
             <SendHorizonal className="md:hidden"/>
           </Button>
         </div>
