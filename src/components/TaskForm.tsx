@@ -32,7 +32,7 @@ import type { ClassValue } from "clsx";
 import type { TaskForm } from "@/types";
 import { useCallback, useEffect, useState } from "react"
 import { formatCustomDate, getTaskDueDateColorClass, cn } from "@/lib/utils"
-
+import * as chrono from "chrono-node";
 
 
 type TaskFormProps = {
@@ -73,12 +73,20 @@ const TaskForm: React.FC<TaskFormProps> = ({
       due_date: dueDate,
       projectId: projectId,
     }))
-  },[taskContent, dueDate, projectId])
+  },[taskContent, dueDate, projectId]);
+
+  useEffect(() => {
+    const chronoParsed = chrono.parse(taskContent);          // De la tarea (lenguaje común), extrae las fechas encontradas 
+    if(chronoParsed.length){
+      const lastDate = chronoParsed[chronoParsed.length - 1] // Obtiene la última fecha o hora encontrada.
+      setDueDate(lastDate.date())                            // Convierte la fecha o hora en un objeto Date.
+    }                                                        // Si se escribe "tomorrow" se establecerá la fecha en el día siguiente. 
+  },[taskContent])
 
   const handleSubmit = useCallback(() => {
     if(!taskContent) return;
   
-    if(onSubmit) onSubmit(formData)
+    if(onSubmit) onSubmit(formData)                          // Envía el formulario a la ruta /app con una petición POST
     
     setTaskContent("");
   },[taskContent, formData, onSubmit])
@@ -157,7 +165,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
             <Button
               variant="ghost"
               role="combobox"
-              aria-expanded={false}
+              aria-expanded={projectOpen}
               className="max-w-max"
               onClick={onCancel}
             >
