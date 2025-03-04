@@ -1,6 +1,6 @@
 
 
-import { useState, type PropsWithChildren } from "react"
+import { useEffect, useState, type PropsWithChildren } from "react"
 import {
   Dialog,
   DialogContent,
@@ -20,6 +20,24 @@ const TaskFormDialog: React.FC<PropsWithChildren> = ({ children }) => {
   const location = useLocation();
   const fetcher = useFetcher();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const listener = (event:KeyboardEvent) => {
+      if(event.key === "q"){                                // Si se presiona la tecla q, abre el dialogo de añadir tarea
+        const target = event.target as HTMLElement;
+        if(target.localName === "textarea") return;         // Si se presiona la tecla q en un campo de texto, no abre el dialogo
+
+        event.preventDefault();
+        setOpen(true);
+      }
+    }
+
+    document.addEventListener("keydown", listener);
+
+    return () => {
+      document.removeEventListener("keydown", listener);
+    }
+  },[])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
