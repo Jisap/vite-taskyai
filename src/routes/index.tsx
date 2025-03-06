@@ -9,6 +9,7 @@ import RootErrorBoundary from "@/pages/RootErrorBoundary";
 import { createBrowserRouter } from "react-router";
 import type { RouteObject } from "react-router";
 import appAction from "@/routes/actions/appAction";
+import inboxTaskLoader from "./loaders/inboxLoaders";
 
 const rootRouteChildren: RouteObject[] = [
   {
@@ -32,7 +33,8 @@ const rootRouteChildren: RouteObject[] = [
 const appRouteChildren: RouteObject[] = [
   {
     path: 'inbox',
-    element: <InboxPage />
+    element: <InboxPage />,
+    loader: inboxTaskLoader
   }
 ];
 
