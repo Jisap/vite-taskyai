@@ -1,7 +1,7 @@
 import type { Models } from "appwrite";
 import { Button } from "./ui/button";
 import { cn, getTaskDueDateColorClass } from "@/lib/utils";
-import { Check, CalendarDays, Hash, Inbox, Edit } from "lucide-react";
+import { Check, CalendarDays, Hash, Inbox, Edit, Trash2 } from "lucide-react";
 import { formatCustomDate } from "@/lib/utils";
 import {
   Card,
@@ -92,6 +92,26 @@ const TaskCard: React.FC<TaskCardProps> = ({ id, content, completed, dueDate, pr
                 aria-label="Edit"  
               >
                 <Edit />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              Edit task
+            </TooltipContent>
+          </Tooltip>
+        )}
+      </div>
+
+      <div>
+        {!completed && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-6 h-6 text-muted-foreground"
+                aria-label="Edit"
+              >
+                <Trash2 />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
