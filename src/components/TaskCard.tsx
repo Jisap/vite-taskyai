@@ -1,13 +1,14 @@
 import type { Models } from "appwrite";
 import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
-import { Check, CalendarDays } from "lucide-react";
+import { cn, getTaskDueDateColorClass } from "@/lib/utils";
+import { Check, CalendarDays, Hash, Inbox, Edit } from "lucide-react";
 import { formatCustomDate } from "@/lib/utils";
 import {
   Card,
   CardContent,
   CardFooter
 } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 type TaskCardProps = {
   id: string;
@@ -20,7 +21,7 @@ type TaskCardProps = {
 
 const TaskCard: React.FC<TaskCardProps> = ({ id, content, completed, dueDate, project}) => {
   return (
-    <div>
+    <div className="group/card relative grid grid-cols-[max-content,minmax(0,1fr)] gap-3 border-b">
       <Button
         variant="outline"
         size="icon"
@@ -40,8 +41,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ id, content, completed, dueDate, pr
         />
       </Button>
 
-      <Card>
-        <CardContent>
+      <Card className="rounded-none py-2 space-y-1.5 border-none">
+        <CardContent className="p-0">
           <p 
             id="task-content"
             className={cn(
@@ -53,13 +54,52 @@ const TaskCard: React.FC<TaskCardProps> = ({ id, content, completed, dueDate, pr
           </p>
         </CardContent>
 
-        <CardFooter>
-          <div className="">
-            <CalendarDays />
-            {formatCustomDate(dueDate)}
-          </div>
+        <CardFooter className="p-0 flex gap-4">
+          {dueDate && (
+            <div className={cn(
+              "flex items-center gap-1 text-xs text-muted-foreground", 
+              getTaskDueDateColorClass(dueDate, completed)
+            )}>
+              <CalendarDays size={14} />
+              {formatCustomDate(dueDate)}
+            </div>
+          )}
+
+          <div className="grid grid-cols-[minmax(0,180px),max-content] items-center gap-1 text-xs text-muted-foreground ms-auto">
+            <div className="truncate text-right">
+              {project?.name || "Inbox"}
+            </div>
+              {project ? (
+                <Hash size="14" />
+              ) : (
+                <Inbox 
+                  size={14}
+                  className="text-muted-foreground"  
+                />
+              )}
+            </div>
         </CardFooter>
       </Card>
+
+      <div>
+        {!completed && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="w-6 h-6 text-muted-foreground"
+                aria-label="Edit"  
+              >
+                <Edit />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              Edit task
+            </TooltipContent>
+          </Tooltip>
+        )}
+      </div>
     </div>
   )
 }
