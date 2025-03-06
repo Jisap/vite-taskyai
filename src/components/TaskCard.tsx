@@ -109,13 +109,13 @@ const TaskCard: React.FC<TaskCardProps> = ({ id, content, completed, dueDate, pr
                 variant="ghost"
                 size="icon"
                 className="w-6 h-6 text-muted-foreground"
-                aria-label="Edit"
+                aria-label="Delete task"
               >
                 <Trash2 />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              Edit task
+              Delete task
             </TooltipContent>
           </Tooltip>
         )}
