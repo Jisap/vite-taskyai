@@ -93,7 +93,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
   },[taskContent, formData, onSubmit])
 
   return (
-    <Card className="focus-within:border-foreground/30">
+    <Card className={cn(
+      "focus-within:border-foreground/30",
+      className  
+    )}>
       <CardContent className="p-2">
         <Textarea 
           className="!border-0 !ring-0 mb-2 p-1"
@@ -174,7 +177,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
               role="combobox"
               aria-expanded={projectOpen}
               className="max-w-max"
-              onClick={onCancel}
             >
               <Inbox /> Inbox <ChevronDown />
             </Button>
@@ -212,7 +214,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
         </Popover>
 
         <div className="flex items-center gap-2">
-          <Button variant="secondary">
+          <Button variant="secondary" onClick={onCancel}>
             <span className="max-md:hidden">Cancel</span>
             <X className="md:hidden"/>
           </Button>
