@@ -5,13 +5,14 @@ import TaskCreateButton from "@/components/TaskCreateButton"
 import TaskEmptyState from "@/components/TaskEmptyState"
 import TaskForm from "@/components/TaskForm"
 import { useState } from "react"
-import { useFetcher } from "react-router"
-
+import { useFetcher, useLoaderData } from "react-router"
+import { Models } from "appwrite"
 
 
 const InboxPage = () => {
 
   const fetcher = useFetcher();
+  const { tasks } = useLoaderData<{tasks: Models.DocumentList<Models.Document>}>(); // tipado basado en la configuración de la tabla en Appwrite
   const [taskFormShow, setTaskFormShow] = useState(false);
 
   return (
@@ -28,6 +29,12 @@ const InboxPage = () => {
         </PageHeader>
 
         <PageList>
+          {tasks.documents.map(({ $id, content, completed, due_date, projectId }) => (
+            <div>
+              Task card
+            </div>
+          ))}
+
           {!taskFormShow && (
             <TaskCreateButton 
               onClick={() => setTaskFormShow(true)}   
