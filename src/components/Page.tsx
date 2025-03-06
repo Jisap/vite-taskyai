@@ -26,8 +26,17 @@ const PageTitle: React.FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
+const PageList: React.FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <div className="pt-2 pb-20 md:px-4 lg:px-10">
+      {children}
+    </div>
+  )
+}
+
 export { 
   Page,
   PageHeader,
   PageTitle,  
+  PageList,
 }
