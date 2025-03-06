@@ -7,6 +7,7 @@ import TaskForm from "@/components/TaskForm"
 import { useState } from "react"
 import { useFetcher, useLoaderData } from "react-router"
 import { Models } from "appwrite"
+import TaskCard from "@/components/TaskCard"
 
 
 const InboxPage = () => {
@@ -29,10 +30,15 @@ const InboxPage = () => {
         </PageHeader>
 
         <PageList>
-          {tasks.documents.map(({ $id, content, completed, due_date, projectId }) => (
-            <div>
-              Task card
-            </div>
+          {tasks.documents.map(({ $id, content, completed, due_date, projectId:project }) => (
+            <TaskCard 
+              key={$id}
+              id={$id}
+              content={content}
+              completed={completed}
+              dueDate={due_date}
+              project={project}
+            />
           ))}
 
           {!taskFormShow && (
