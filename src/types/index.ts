@@ -28,7 +28,7 @@ type TaskForm = {
   content: string;
   due_date: Date | null;
   completed?: boolean;
-  projectId: string | null;
+  project: string | null;
 }
 
 export type { Project, ProjectForm, Task, TaskForm }

@@ -12,7 +12,7 @@ const getTasks = async() => {
       "tasks",
       [
         Query.equal("completed", false),    // Only incomplete tasks
-        Query.isNull("projectId"),          // Only tasks without a project
+        Query.isNull("project"),            // Only tasks without a project
         Query.equal("userId", getUserId()), // Only tasks for the current user
       ]
     );

@@ -49,7 +49,7 @@ const TaskFormDialog: React.FC<PropsWithChildren> = ({ children }) => {
           defaultFormData={{
             content: "",
             due_date: location.pathname === "/app/today" ? startOfToday() : null,  // Establece la fecha de vencimiento en la fecha actual si el usuario está en la página de hoy
-            projectId: null,
+            project: null,
           }}
           mode="create"
           onCancel={() => setOpen(false)}

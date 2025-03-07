@@ -47,7 +47,7 @@ type TaskFormProps = {
 const DEFAULT_FORM_DATA: TaskForm = {
   content: "",
   due_date: null,
-  projectId: null
+  project: null
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({
@@ -59,7 +59,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
 }) => {
   const [taskContent, setTaskContent] = useState(defaultFormData.content)
   const [dueDate, setDueDate] = useState(defaultFormData.due_date)
-  const [projectId, setProjectId] = useState(defaultFormData.projectId)
+  const [projectId, setProjectId] = useState(defaultFormData.project)
   const [projecName, setProjectName] = useState("");
   const [projectColorHex, setProjectColorHex] = useState("");
   const [dueDateOpen, setDueDateOpen] = useState(false);
