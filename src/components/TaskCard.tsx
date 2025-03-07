@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import TaskForm from "./TaskForm";
-import { useState } from "react";
-import { useFetcher } from "react-router";
+import { useCallback, useState } from "react";
+import { Await, useFetcher } from "react-router";
 import type { Task } from "@/types";
 
 
@@ -49,7 +49,16 @@ const TaskCard: React.FC<TaskCardProps> = ({
     fetcherTask
   })
 
- 
+  const handleTaskComplete = useCallback(async(completed:boolean) => {
+    return await fetcher.submit(JSON.stringify({
+      id: task.id,
+      completed
+    }), {
+      action: "/app",
+      method: "PUT",
+      encType: "application/json",
+    })
+  },[task.id, task.completed])
 
   return (
     <>
@@ -65,6 +74,9 @@ const TaskCard: React.FC<TaskCardProps> = ({
             aria-checked={task.completed}                                             // Indica el estado la tarea.
             aria-label={`Mark task as ${task.completed ? "incomplete" : "complete"}`} // Describe la acción que se realizará al interactuar con el botón
             aria-describedby="task-content"
+            onClick={async() => {
+              await handleTaskComplete(!task.completed)
+            }}
           >
             <Check 
               strokeWidth={4}
