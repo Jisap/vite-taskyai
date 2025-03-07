@@ -43,7 +43,14 @@ const TaskCard: React.FC<TaskCardProps> = ({
     content,
     completed,
     due_date: dueDate,
-    project,
+    project: project
+      ? {
+        id: project.$id, // Mapear $id al id de Project
+        name: project.name,
+        color_name: project.color_name,
+        color_hex: project.color_hex
+      }
+      : null,
     userId
   },{
     fetcherTask
