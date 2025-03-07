@@ -1,6 +1,6 @@
 import type { Models } from "appwrite";
 import { Button } from "./ui/button";
-import { cn, getTaskDueDateColorClass } from "@/lib/utils";
+import { cn, getTaskDueDateColorClass, getUserId } from "@/lib/utils";
 import { Check, CalendarDays, Hash, Inbox, Edit, Trash2 } from "lucide-react";
 import { formatCustomDate } from "@/lib/utils";
 import {
@@ -14,30 +14,42 @@ import { useState } from "react";
 import { useFetcher } from "react-router";
 import type { Task } from "@/types";
 
+
 type TaskCardProps = {
   id: string;
   content: string;
   completed: boolean;
   dueDate: Date;
   project: Models.Document | null;
+ 
 }
 
 
-const TaskCard: React.FC<TaskCardProps> = ({ id, content, completed, dueDate, project}) => {
+const TaskCard: React.FC<TaskCardProps> = ({ 
+  id, 
+  content, 
+  completed, 
+  dueDate, 
+  project,
+}) => {
 
   const [taskFormShow, setTaskFormShow] = useState(false);
   const fetcher = useFetcher();
   const fetcherTask = fetcher.json as Task; // Obtiene la información que se manda al servidor en las peticiones POST y PUT
+  const userId = getUserId();
 
   const task: Task = Object.assign({
     id, 
     content,
     completed,
     due_date: dueDate,
-    project
+    project,
+    userId
   },{
     fetcherTask
   })
+
+ 
 
   return (
     <>

@@ -59,7 +59,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
 }) => {
   const [taskContent, setTaskContent] = useState(defaultFormData.content)
   const [dueDate, setDueDate] = useState(defaultFormData.due_date)
-  const [projectId, setProjectId] = useState(defaultFormData.project)
+  const [project, setProject] = useState(defaultFormData.project)
   const [projecName, setProjectName] = useState("");
   const [projectColorHex, setProjectColorHex] = useState("");
   const [dueDateOpen, setDueDateOpen] = useState(false);
@@ -72,9 +72,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
       ...prevFormData,
       content: taskContent,
       due_date: dueDate,
-      projectId: projectId,
+      project: project,
     }))
-  },[taskContent, dueDate, projectId]);
+  },[taskContent, dueDate, project]);
 
   useEffect(() => {
     const chronoParsed = chrono.parse(taskContent);          // De la tarea (lenguaje común), extrae las fechas encontradas 
@@ -86,7 +86,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
 
   const handleSubmit = useCallback(() => {
     if(!taskContent) return;
-  
+  console.log("formData desde taskForm", formData);
     if(onSubmit) onSubmit(formData)                          // Envía el formulario a la ruta /app con una petición POST
     
     setTaskContent("");

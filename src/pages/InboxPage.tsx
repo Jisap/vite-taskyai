@@ -15,7 +15,7 @@ const InboxPage = () => {
   const fetcher = useFetcher();
   const { tasks } = useLoaderData<{tasks: Models.DocumentList<Models.Document>}>(); // tipado basado en la configuración de la tabla en Appwrite
   const [taskFormShow, setTaskFormShow] = useState(false);
-
+console.log(tasks);
   return (
     <>
       <Head title="Inbox -Tasky AI" />
@@ -30,7 +30,7 @@ const InboxPage = () => {
         </PageHeader>
 
         <PageList>
-          {tasks.documents.map(({ $id, content, completed, due_date, projectId:project }) => (
+          {tasks.documents.map(({ $id, content, completed, due_date, project}) => (
             <TaskCard 
               key={$id}
               id={$id}
@@ -38,6 +38,7 @@ const InboxPage = () => {
               completed={completed}
               dueDate={due_date}
               project={project}
+              
             />
           ))}
 
