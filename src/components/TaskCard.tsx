@@ -11,7 +11,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import TaskForm from "./TaskForm";
 import { useCallback, useState } from "react";
-import { useFetcher } from "react-router";
+import { useFetcher, useLocation } from "react-router";
 import type { Task } from "@/types";
 import { toast } from "sonner"
 import {
@@ -50,6 +50,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
   const fetcher = useFetcher();
   const fetcherTask = fetcher.json as Task; // Obtiene la información que se manda al servidor en las peticiones POST y PUT
   const userId = getUserId();
+  const location = useLocation();
   
 
   const task: Task = Object.assign({
@@ -139,7 +140,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
 
             {/* Footer de la tarea */}
             <CardFooter className="p-0 flex gap-4">
-              {task.due_date && (
+              {task.due_date && location.pathname !== "/app/today" &&( // Se muestra el día de la tarea si no estamos en la página de hoy
                 <div className={cn(
                   "flex items-center gap-1 text-xs text-muted-foreground", 
                   getTaskDueDateColorClass(task.due_date, task.completed)
@@ -149,19 +150,23 @@ const TaskCard: React.FC<TaskCardProps> = ({
                 </div>
               )}
 
-              <div className="grid grid-cols-[minmax(0,180px),max-content] items-center gap-1 text-xs text-muted-foreground ms-auto">
-                <div className="truncate text-right">
-                  {task.project?.name || "Inbox"}
+              {/* Si no estas en /app/inbox y tampoco estas en la página de un proyecto, se muestra el nombre del proyecto */}
+              {/* Si estas en inbox o en la página de un proyecto no se muestra el nombre del mismo */}
+              {location.pathname !== "/app/inbox" && location.pathname !==`/app/projects/${project?.$id}` && (
+                <div className="grid grid-cols-[minmax(0,180px),max-content] items-center gap-1 text-xs text-muted-foreground ms-auto">
+                  <div className="truncate text-right">
+                    {task.project?.name || "Inbox"}
+                  </div>
+                    {task.project ? (
+                      <Hash size="14" />
+                    ) : (
+                      <Inbox 
+                        size={14}
+                        className="text-muted-foreground"  
+                      />
+                    )}
                 </div>
-                  {task.project ? (
-                    <Hash size="14" />
-                  ) : (
-                    <Inbox 
-                      size={14}
-                      className="text-muted-foreground"  
-                    />
-                  )}
-                </div>
+              )}
             </CardFooter>
           </Card>
 
