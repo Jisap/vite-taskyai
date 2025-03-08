@@ -15,7 +15,7 @@ const InboxPage = () => {
   const fetcher = useFetcher();
   const { tasks } = useLoaderData<{tasks: Models.DocumentList<Models.Document>}>(); // tipado basado en la configuración de la tabla en Appwrite
   const [taskFormShow, setTaskFormShow] = useState(false);
-console.log(tasks);
+
   return (
     <>
       <Head title="Inbox -Tasky AI" />

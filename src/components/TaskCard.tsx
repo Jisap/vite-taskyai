@@ -11,9 +11,9 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import TaskForm from "./TaskForm";
 import { useCallback, useState } from "react";
-import { Await, useFetcher } from "react-router";
+import { useFetcher } from "react-router";
 import type { Task } from "@/types";
-
+import { toast } from "sonner"
 
 type TaskCardProps = {
   id: string;
@@ -37,6 +37,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
   const fetcher = useFetcher();
   const fetcherTask = fetcher.json as Task; // Obtiene la información que se manda al servidor en las peticiones POST y PUT
   const userId = getUserId();
+  
 
   const task: Task = Object.assign({
     id, 
@@ -83,6 +84,21 @@ const TaskCard: React.FC<TaskCardProps> = ({
             aria-describedby="task-content"
             onClick={async() => {
               await handleTaskComplete(!task.completed)
+              toast.success(
+                "Task masked as complete", {
+                  action: {
+                    label: "Undo",
+                    onClick: () => handleTaskComplete(false)
+                  },
+                  className: "flex justify-between items-center",
+                  actionButtonStyle: {
+                    backgroundColor: "rgba(252, 103, 4, 0.897)",
+                    color: "rgba(255, 255, 255, 0.877)",
+                    padding: "0.25rem 0.75rem",
+                    borderRadius: "0.25rem"
+                  }
+                }
+              )
             }}
           >
             <Check 
