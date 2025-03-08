@@ -1,6 +1,6 @@
 import type { Models } from "appwrite";
 import { Button } from "./ui/button";
-import { cn, getTaskDueDateColorClass, getUserId } from "@/lib/utils";
+import { cn, getTaskDueDateColorClass, getUserId, truncateString } from "@/lib/utils";
 import { Check, CalendarDays, Hash, Inbox, Edit, Trash2 } from "lucide-react";
 import { formatCustomDate } from "@/lib/utils";
 import {
@@ -80,7 +80,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
       encType: "application/json",
     })
   },[task.id, task.completed])
-
+  
   return (
     <>
       {!taskFormShow && (
@@ -212,8 +212,8 @@ const TaskCard: React.FC<TaskCardProps> = ({
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete task?</AlertDialogTitle>
                 
-                  <AlertDialogDescription>
-                    The <strong>{task.content}</strong> task will be permantently deleted.
+                  <AlertDialogDescription >
+                    The <strong>{truncateString(task.content, 48)}</strong> task will be permantently deleted.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
 
