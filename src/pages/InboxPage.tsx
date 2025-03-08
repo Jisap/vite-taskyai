@@ -8,6 +8,9 @@ import { useState } from "react"
 import { useFetcher, useLoaderData } from "react-router"
 import { Models } from "appwrite"
 import TaskCard from "@/components/TaskCard"
+import TaskCardSkeleton from "@/components/TaskCardSkeleton"
+
+
 
 
 const InboxPage = () => {
@@ -42,13 +45,15 @@ const InboxPage = () => {
             />
           ))}
 
+          {fetcher.state !== "idle" && <TaskCardSkeleton />}
+
           {!taskFormShow && (
             <TaskCreateButton 
               onClick={() => setTaskFormShow(true)}   
             />
           )}
 
-          {!taskFormShow && (
+          {!taskFormShow && !tasks.total &&(
             <TaskEmptyState type="inbox"/>
           )}
 
