@@ -14,6 +14,19 @@ import { useCallback, useState } from "react";
 import { useFetcher } from "react-router";
 import type { Task } from "@/types";
 import { toast } from "sonner"
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog"
+
+
 
 type TaskCardProps = {
   id: string;
@@ -72,6 +85,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
     <>
       {!taskFormShow && (
         <div className="group/card relative grid grid-cols-[max-content,minmax(0,1fr)] gap-3 border-b">
+          {/* Button checkbox */}
           <Button
             variant="outline"
             size="icon"
@@ -109,6 +123,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
             />
           </Button>
 
+          {/* Contenido de la tarea */}
           <Card className="rounded-none py-2 space-y-1.5 border-none">
             <CardContent className="p-0">
               <p 
@@ -122,6 +137,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
               </p>
             </CardContent>
 
+            {/* Footer de la tarea */}
             <CardFooter className="p-0 flex gap-4">
               {task.due_date && (
                 <div className={cn(
@@ -149,8 +165,10 @@ const TaskCard: React.FC<TaskCardProps> = ({
             </CardFooter>
           </Card>
 
+          {/* Botones de acciones de la tarea */}
           <div className="absolute top-1.5 right-0 bg-background ps-1 shadow-[-10px_0_5px_hst(var(--background))] 
           flex items-center gap-1 opacity-0 group-hover/card:opacity-100 focus-within:opacity-100 max-md:opacity-100">
+            {/* Editar tarea */}
             {!task.completed && (
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -170,23 +188,50 @@ const TaskCard: React.FC<TaskCardProps> = ({
               </Tooltip>
             )}
 
-            {!task.completed && (
+            {/* Eliminar tarea */}
+            <AlertDialog>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="w-6 h-6 text-muted-foreground"
-                    aria-label="Delete task"
-                  >
-                    <Trash2 />
-                  </Button>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="w-6 h-6 text-muted-foreground"
+                      aria-label="Delete task"
+                    >
+                      <Trash2 />
+                    </Button>
+                  </AlertDialogTrigger>
                 </TooltipTrigger>
                 <TooltipContent>
                   Delete task
                 </TooltipContent>
               </Tooltip>
-            )}
+
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete task?</AlertDialogTitle>
+                
+                  <AlertDialogDescription>
+                    The <strong>{task.content}</strong> task will be permantently deleted.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction 
+                    onClick={() => {
+                      fetcher.submit(JSON.stringify({id: task.id}),{
+                        action: "/app",
+                        method: "DELETE",
+                        encType: "application/json",
+                    })}}
+                  >Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            
           </div>
         </div>
       )}
