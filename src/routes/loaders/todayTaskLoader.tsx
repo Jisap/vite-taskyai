@@ -26,7 +26,7 @@ const getTasks = async () => {
     );
   } catch (error) {
     console.log(error);
-    throw new Error("Error getting inbox tasks");
+    throw new Error("Error getting today tasks");
   }
 }
 

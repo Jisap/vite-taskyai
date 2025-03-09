@@ -1,6 +1,6 @@
 
 
-import { Link } from "react-router"
+import { Link, useLocation } from "react-router"
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +14,7 @@ import {
   SidebarMenuBadge,
   SidebarGroupAction,
   SidebarGroupLabel,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import Logo from "./Logo"
 import { UserButton } from "@clerk/clerk-react"
@@ -35,6 +36,10 @@ import TaskFormDialog from "./TaskFormDialog"
 
 
 const AppSidebar = () => {
+
+  const location = useLocation();
+  const { isMobile, setOpenMobile } = useSidebar();
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -59,7 +64,13 @@ const AppSidebar = () => {
               {/* sidebar links */}
               {SIDEBAR_LINKS.map((item, index) => (
                 <SidebarMenuItem key={index}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={location.pathname === item.href}
+                    onClick={() => {
+                      if(isMobile) setOpenMobile(false); // Si estamos en el sidebar en mobile, cerramos el menu al hacer clic en un link
+                    }}
+                  >
                     <Link to={item.href} className="">
                       <item.icon />
                       <span>{item.label}</span>
