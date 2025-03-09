@@ -99,7 +99,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
             aria-describedby="task-content"
             onClick={async() => {
               await handleTaskComplete(!task.completed)
-              toast.success(
+              toast.success(                                                          // Implementación de toast con Sonner 
                 "Task masked as complete", {
                   action: {
                     label: "Undo",

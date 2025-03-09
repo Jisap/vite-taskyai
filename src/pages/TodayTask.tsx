@@ -1,3 +1,4 @@
+
 import Head from "@/components/Head"
 import TopAppBar from "@/components/TopAppBar"
 import { Page, PageHeader, PageList, PageTitle } from "@/components/Page"
@@ -9,61 +10,73 @@ import { useFetcher, useLoaderData } from "react-router"
 import { Models } from "appwrite"
 import TaskCard from "@/components/TaskCard"
 import TaskCardSkeleton from "@/components/TaskCardSkeleton"
+import { CheckCircle2 } from "lucide-react"
+import { startOfToday } from "date-fns"
 
 
 
 
-const InboxPage = () => {
+const TodayTaskPage = () => {
 
   const fetcher = useFetcher();
-  const { tasks } = useLoaderData<{tasks: Models.DocumentList<Models.Document>}>(); // tipado basado en la configuración de la tabla en Appwrite
+  const { tasks } = useLoaderData<{ tasks: Models.DocumentList<Models.Document> }>(); // tipado basado en la configuración de la tabla en Appwrite
   const [taskFormShow, setTaskFormShow] = useState(false);
 
   return (
     <>
-      <Head title="Inbox - Tasky AI" />
-      <TopAppBar 
-        title="Inbox"
+      <Head title="Today - Tasky AI" />
+      <TopAppBar
+        title="Today"
         taskCount={ tasks.total }
       />
 
       <Page>
         <PageHeader>
-          <PageTitle>Inbox</PageTitle>
+          <PageTitle>Today</PageTitle>
+          {tasks.total > 0 && (
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              <CheckCircle2 size={16} /> {tasks.total} tasks
+            </div>
+          )}
         </PageHeader>
 
         <PageList>
-          {tasks.documents.map(({ $id, content, completed, due_date, project}) => (
-            <TaskCard 
+          {tasks.documents.map(({ $id, content, completed, due_date, project }) => (
+            <TaskCard
               key={$id}
               id={$id}
               content={content}
               completed={completed}
               dueDate={due_date}
               project={project}
-              
+
             />
           ))}
 
           {fetcher.state !== "idle" && <TaskCardSkeleton />}
 
           {!taskFormShow && (
-            <TaskCreateButton 
-              onClick={() => setTaskFormShow(true)}   
+            <TaskCreateButton
+              onClick={() => setTaskFormShow(true)}
             />
           )}
 
-          {!taskFormShow && !tasks.total &&(
-            <TaskEmptyState type="inbox"/>
+          {!taskFormShow && !tasks.total && (
+            <TaskEmptyState />
           )}
 
           {taskFormShow && (
-            <TaskForm 
-              mode="create" 
-              className="mt-5"  
+            <TaskForm
+              mode="create"
+              defaultFormData={{
+                content: "",
+                due_date: startOfToday(),
+                project: null,
+              }}
+              className="mt-5"
               onCancel={() => setTaskFormShow(false)}
               onSubmit={(formData) => {
-                fetcher.submit(JSON.stringify(formData),{
+                fetcher.submit(JSON.stringify(formData), {
                   action: "/app",
                   method: "POST",
                   encType: "application/json",
@@ -77,4 +90,4 @@ const InboxPage = () => {
   )
 }
 
-export default InboxPage
+export default TodayTaskPage

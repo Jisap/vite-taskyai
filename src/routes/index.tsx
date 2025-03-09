@@ -10,6 +10,8 @@ import { createBrowserRouter } from "react-router";
 import type { RouteObject } from "react-router";
 import appAction from "@/routes/actions/appAction";
 import inboxTaskLoader from "./loaders/inboxLoaders";
+import TodayTask from "@/pages/TodayTask";
+import todayTaskLoader from "./loaders/todayTaskLoader";
 
 const rootRouteChildren: RouteObject[] = [
   {
@@ -35,6 +37,10 @@ const appRouteChildren: RouteObject[] = [
     path: 'inbox',
     element: <InboxPage />,
     loader: inboxTaskLoader
+  },{
+    path: 'today',
+    element: <TodayTask />,
+    loader: todayTaskLoader,
   }
 ];
 
