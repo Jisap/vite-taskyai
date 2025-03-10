@@ -42,8 +42,10 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   onSubmit,
 }) => {
 
-  const [projectName, setProjectName] = useState<string>(defaultFormData.name || "");
+  const [projectName, setProjectName] = useState<string>(defaultFormData.name);
   const [projectNameCharCount, setProjectNameCharCount] = useState<number>(defaultFormData.name.length);
+  const [colorName, setColorName] = useState<string>(defaultFormData.color_name);
+  const [colorHex, setColorHex] = useState<string>(defaultFormData.color_hex);
 
   return (
     <Card>
@@ -53,19 +55,69 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
 
       <Separator />
 
-      <CardContent>
+      <CardContent className="p-4 grid grid-cols-1 gap-2">
         <div>
           <Label htmlFor="project_name">Name</Label>
           <Input 
             type="text"
             id="project_name"
             className="mt-2 mb-1"
-            onInput={() => {}}
+            onInput={(e) => {
+              setProjectName(e.currentTarget.value);
+              setProjectNameCharCount(e.currentTarget.value.length);
+            }}
             value={projectName}
             maxLength={120}
           />
 
-          <div className="text-xs text-muted-foreground max-w-max ms-auto">0/120</div>
+          <div className={cn(
+            "text-xs text-muted-foreground max-w-max ms-auto",
+            projectNameCharCount >= 110 && "text-destructive"  
+          )}>
+            {projectNameCharCount}/120
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="color">
+            <Popover modal={true}>
+              <PopoverTrigger asChild>
+                <Button 
+                  variant="outline"
+                  className="w-full mt-2"
+                  id="color"
+                >
+                  <Circle fill={colorHex} />
+                  {colorName}
+                  <ChevronDown className="ms-auto" />
+                </Button>
+              </PopoverTrigger>
+
+              <PopoverContent 
+                align="start"
+                className="p-0 w-[478px] max-sm:w-[360px]"   
+              >
+                <Command>
+                  <CommandInput placeholder="Search color ..." />
+                  <CommandList>
+                    <ScrollArea>
+                      <CommandEmpty>No color found.</CommandEmpty>
+                    
+                      <CommandGroup>
+                        {PROJECT_COLORS.map(({ name, hex}) => (
+                          <CommandItem key={name}>
+                            <Circle fill={hex} />
+                            {name}
+                            {colorName === name && <Check className="ms-auto"/>}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </ScrollArea>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </Label>
         </div>
       </CardContent>
     </Card>
