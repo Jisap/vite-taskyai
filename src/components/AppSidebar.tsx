@@ -31,7 +31,7 @@ import {
   TooltipContent,
 } from "./ui/tooltip"
 import TaskFormDialog from "./TaskFormDialog"
-
+import ProjectFormDialog from "./projectFormDialog"
 
 
 
@@ -100,11 +100,13 @@ const AppSidebar = () => {
             </SidebarGroupLabel>
 
             <Tooltip>
-              <TooltipTrigger asChild>
-                <SidebarGroupAction aria-label="Add project">
-                  <Plus />
-                </SidebarGroupAction>
-              </TooltipTrigger>
+              <ProjectFormDialog>
+                <TooltipTrigger asChild>
+                  <SidebarGroupAction aria-label="Add project">
+                    <Plus />
+                  </SidebarGroupAction>
+                </TooltipTrigger>
+              </ProjectFormDialog>
               <TooltipContent side="right">
                 Add Project
               </TooltipContent>
