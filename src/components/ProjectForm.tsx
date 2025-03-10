@@ -105,7 +105,15 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                     
                       <CommandGroup>
                         {PROJECT_COLORS.map(({ name, hex}) => (
-                          <CommandItem key={name}>
+                          <CommandItem 
+                            key={name}
+                            value={`${name}=${hex}`}                // Crea un string con el nombre y el hex
+                            onSelect={(value) => {
+                              const [name, hex] = value.split("="); // Desde el string se crea un par clave-valor
+                              setColorName(name);
+                              setColorHex(hex);                     // Se establecen los estados que se muestran en la UI
+                            }}
+                          >
                             <Circle fill={hex} />
                             {name}
                             {colorName === name && <Check className="ms-auto"/>}
