@@ -99,21 +99,24 @@ const TaskCard: React.FC<TaskCardProps> = ({
             aria-describedby="task-content"
             onClick={async() => {
               await handleTaskComplete(!task.completed)
-              toast.success(                                                          // Implementación de toast con Sonner 
-                "Task masked as complete", {
-                  action: {
-                    label: "Undo",
-                    onClick: () => handleTaskComplete(false)
-                  },
-                  className: "flex justify-between items-center",
-                  actionButtonStyle: {
-                    backgroundColor: "rgba(252, 103, 4, 0.897)",
-                    color: "rgba(255, 255, 255, 0.877)",
-                    padding: "0.25rem 0.75rem",
-                    borderRadius: "0.25rem"
+
+              if(!task.completed){
+                toast.success(                                                          // Implementación de toast con Sonner 
+                  "Task masked as complete", {
+                    action: {
+                      label: "Undo",
+                      onClick: () => handleTaskComplete(false)
+                    },
+                    className: "flex justify-between items-center",
+                    actionButtonStyle: {
+                      backgroundColor: "rgba(252, 103, 4, 0.897)",
+                      color: "rgba(255, 255, 255, 0.877)",
+                      padding: "0.25rem 0.75rem",
+                      borderRadius: "0.25rem"
+                    }
                   }
-                }
-              )
+                )
+              }
             }}
           >
             <Check 
