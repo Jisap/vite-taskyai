@@ -46,6 +46,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   const [projectNameCharCount, setProjectNameCharCount] = useState<number>(defaultFormData.name.length);
   const [colorName, setColorName] = useState<string>(defaultFormData.color_name);
   const [colorHex, setColorHex] = useState<string>(defaultFormData.color_hex);
+  const [colorOpen, setColorOpen] = useState<boolean>(false);
 
   return (
     <Card>
@@ -80,7 +81,11 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
 
         <div>
           <Label htmlFor="color">
-            <Popover modal={true}>
+            <Popover 
+              modal={true}
+              open={colorOpen}
+              onOpenChange={setColorOpen}  
+            >
               <PopoverTrigger asChild>
                 <Button 
                   variant="outline"
@@ -112,6 +117,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                               const [name, hex] = value.split("="); // Desde el string se crea un par clave-valor
                               setColorName(name);
                               setColorHex(hex);                     // Se establecen los estados que se muestran en la UI
+                              setColorOpen(false);                  // Se cierra el popover
                             }}
                           >
                             <Circle fill={hex} />
