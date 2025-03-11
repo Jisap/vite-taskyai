@@ -30,9 +30,12 @@ const ProjectFormDialog: React.FC<ProjectFormDialogProps> = ({ defaultFormData, 
 
       <DialogContent className="p-0 border-0 !rounded-xl">
         <ProjectForm 
-          mode="create"
+          mode={method === "POST" ? "create" : "edit"}
           defaultFormData={defaultFormData}
           onCancel={() => setOpen(false)}
+          onSubmit={(data) => {
+            console.log(data);
+          }}
         />
       </DialogContent>
     </Dialog>

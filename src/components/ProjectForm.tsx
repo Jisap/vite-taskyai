@@ -70,6 +70,14 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
     if(onSubmit) onSubmit(formData);
   },[onSubmit, formData])
 
+  const handleKeySubmit = useCallback((
+    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if(e.key === "Enter" && !e.shiftKey){
+      handleSubmit()
+    }
+  }, [handleSubmit])
+
   return (
     <Card>
       <CardHeader className="p-4">
@@ -91,6 +99,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
             }}
             value={projectName}
             maxLength={120}
+            onKeyDown={handleKeySubmit}
           />
 
           <div className={cn(
@@ -188,6 +197,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                 onChange={(e) => {
                   setTaskGenPrompt(e.currentTarget.value);
                 }}
+                onKeyDown={handleKeySubmit}
               />
             )}
           </div>
