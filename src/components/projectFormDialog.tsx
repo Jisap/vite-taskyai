@@ -8,6 +8,7 @@ import {
 } from "./ui/dialog"
 
 import type { Project } from "@/types"
+import { useFetcher } from "react-router"
 
 type ProjectFormDialogProps = {
   defaultFormData?: Project;  
@@ -19,7 +20,7 @@ type ProjectFormDialogProps = {
 const ProjectFormDialog: React.FC<ProjectFormDialogProps> = ({ defaultFormData, children, method }) => {
   
   const [open, setOpen] = useState<boolean>(false);
-  
+  const fetcher = useFetcher();
   
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -33,8 +34,13 @@ const ProjectFormDialog: React.FC<ProjectFormDialogProps> = ({ defaultFormData, 
           mode={method === "POST" ? "create" : "edit"}
           defaultFormData={defaultFormData}
           onCancel={() => setOpen(false)}
-          onSubmit={(data) => {
-            console.log(data);
+          onSubmit={async(data) => {
+            setOpen(false);
+            await fetcher.submit(JSON.stringify(data),{
+              action: `/app/projects`,
+              method,
+              encType: "application/json",
+            })          
           }}
         />
       </DialogContent>
