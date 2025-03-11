@@ -47,6 +47,28 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   const [colorName, setColorName] = useState<string>(defaultFormData.color_name);
   const [colorHex, setColorHex] = useState<string>(defaultFormData.color_hex);
   const [colorOpen, setColorOpen] = useState<boolean>(false);
+  const [aiTaskGen, setAiTaskGen] = useState<boolean>(false);
+  const [taskGenPrompt, setTaskGenPrompt] = useState<string>("");
+  const [formData, setFormData] = useState<ProjectForm>({
+    ...defaultFormData,
+    ai_task_gen: aiTaskGen,
+    task_gen_prompt: taskGenPrompt,
+  });
+
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      name: projectName,
+      color_name: colorName,
+      color_hex: colorHex,
+      ai_task_gen: aiTaskGen,
+      task_gen_prompt: taskGenPrompt,
+    }))
+  },[projectName, colorName, colorHex, aiTaskGen, taskGenPrompt])
+
+  const handleSubmit = useCallback(() => {
+    if(onSubmit) onSubmit(formData);
+  },[onSubmit, formData])
 
   return (
     <Card>
@@ -133,7 +155,63 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
             </Popover>
           </Label>
         </div>
+
+        {mode === "create" && (
+          <div className="border rounded-md mt-6">
+            <div className="flex items-center gap-3 py-2 px-3">
+              <Bot className="text-muted-foreground flex-shrink-0" />
+              <div className="space-y-0.5 me-auto">
+                <Label 
+                  htmlFor="ai_generate"
+                  className="block text-sm"  
+                >
+                  AI Task Generator
+                </Label>
+
+                <p className="text-xs text-muted-foreground">
+                  Automatically create tasks by providing a simple prompt
+                </p>
+              </div>
+
+              <Switch 
+                id="ai_generate" 
+                onCheckedChange={setAiTaskGen}
+              />
+            </div>
+
+            {aiTaskGen && (
+              <Textarea 
+                autoFocus
+                placeholder="Tell me about your project. What you want to accomplish ?"
+                className="borden-none"
+                value={taskGenPrompt}
+                onChange={(e) => {
+                  setTaskGenPrompt(e.currentTarget.value);
+                }}
+              />
+            )}
+          </div>
+        )}
       </CardContent>
+
+
+      <Separator />
+
+      <CardFooter className="flex justify-end gap-3 p-4">
+        <Button
+          variant="secondary"
+          onClick={onCancel}
+        >
+          Cancel
+        </Button>
+
+        <Button 
+          disabled={!projectName || (aiTaskGen && !taskGenPrompt)}
+          onClick={handleSubmit}
+        >
+          {mode === "create" ? "Add" : "Save"}
+        </Button>
+      </CardFooter>
     </Card>
   )
 }
