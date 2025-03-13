@@ -9,6 +9,7 @@ import { useFetcher, useLoaderData } from "react-router"
 import { Plus } from 'lucide-react';
 import type { Models } from "appwrite";
 import Head from "@/components/Head"
+import ProjectCard from "@/components/ProjectCard"
 
 type DataType = {
   projects: Models.DocumentList<Models.Document>
@@ -46,10 +47,16 @@ console.log(projects);
         </PageHeader>
 
         <PageList>
-          <div>
-            <div>
+          <div className="h-8 flex items-center border-b">
+            <div className="text-sm">
               {projects.total} projects
             </div>
+          </div>
+
+          <div>
+            {projects.documents.map((project) => (
+              <ProjectCard key={project.$id} />
+            ))}
           </div>
         </PageList>
       </Page>
