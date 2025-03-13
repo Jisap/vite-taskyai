@@ -51,11 +51,11 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   const [taskGenPrompt, setTaskGenPrompt] = useState<string>("");
   const [formData, setFormData] = useState<ProjectForm>({
     ...defaultFormData,
-    ai_task_gen: aiTaskGen,
-    task_gen_prompt: taskGenPrompt,
+    ai_task_gen: aiTaskGen,              // boolean que indica si se activó el generador de tareas
+    task_gen_prompt: taskGenPrompt,      // string que contiene el prompt para el generador de tareas
   });
 
-  useEffect(() => {
+  useEffect(() => {                               // Cuando cambien los valores del formulario se actualiza FormData
     setFormData((prevFormData) => ({
       ...prevFormData,
       name: projectName,
@@ -67,7 +67,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   },[projectName, colorName, colorHex, aiTaskGen, taskGenPrompt])
 
   const handleSubmit = useCallback(() => {
-    if(onSubmit) onSubmit(formData);
+    if (onSubmit) onSubmit(formData);            // Se llama al callback de onSubmit con el FormData actualizado. onSubmit llamará a la action  "/app/projects"
   },[onSubmit, formData])
 
   const handleKeySubmit = useCallback((
