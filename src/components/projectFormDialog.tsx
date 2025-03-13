@@ -9,6 +9,8 @@ import {
 
 import type { Project } from "@/types"
 import { useFetcher } from "react-router"
+import { truncateString } from "@/lib/utils"
+import { toast } from "sonner"
 
 type ProjectFormDialogProps = {
   defaultFormData?: Project;  
@@ -36,11 +38,22 @@ const ProjectFormDialog: React.FC<ProjectFormDialogProps> = ({ defaultFormData, 
           onCancel={() => setOpen(false)}
           onSubmit={async(data) => {
             setOpen(false);
+            const toastId = toast.loading(
+              `${method === "POST" ? "Creating" : "Updating"} project`,{
+                duration: Infinity
+              }
+            )
             await fetcher.submit(JSON.stringify(data),{
               action: `/app/projects`,
               method,
               encType: "application/json",
-            })          
+            });
+            
+            toast.success(`Project ${method === "POST" ? "created" : "updated"}`, {
+              id: toastId,
+              description: `The project ${truncateString(data.name, 32)} ${data.ai_task_gen ? "and its tasks" : ""} have been successfully ${method === "POST" ? "created" : "updated"}`,
+              duration: 5000
+            });
           }}
         />
       </DialogContent>
