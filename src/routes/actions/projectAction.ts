@@ -126,6 +126,8 @@ const projectAction:ActionFunction = async ({ request }) => {
     return await deleteProject(data);
   }
 
+
+  throw new Error("Method not allowed");
 }
 
 export default projectAction
