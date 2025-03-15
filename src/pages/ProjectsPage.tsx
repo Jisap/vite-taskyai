@@ -17,10 +17,10 @@ type DataType = {
 
 const ProjectsPage = () => {
 
-  const loaderData = useLoaderData() as DataType;
+  const loaderData = useLoaderData() as DataType; // Recuperamos los datos del loader (base de datos)
 
   const { projects } = loaderData
-console.log(projects);
+
   return (
     <>
       <Head title="My Projects - Tasky AI" />
@@ -32,6 +32,7 @@ console.log(projects);
           <div className="flex items-center gap-2">
             <PageTitle>My Projects</PageTitle>
 
+            {/* Botón para crear un nuevo proyecto */}
             <ProjectFormDialog method="POST">
               <Button 
                 variant="ghost"
@@ -46,6 +47,7 @@ console.log(projects);
           </div>
         </PageHeader>
 
+        {/* Lista de proyectos */}
         <PageList>
           <div className="h-8 flex items-center border-b">
             <div className="text-sm">
@@ -55,7 +57,10 @@ console.log(projects);
 
           <div>
             {projects.documents.map((project) => (
-              <ProjectCard key={project.$id} />
+              <ProjectCard 
+                key={project.$id}
+                project={project}  
+              />
             ))}
           </div>
         </PageList>

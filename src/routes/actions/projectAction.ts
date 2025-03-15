@@ -1,5 +1,5 @@
 import type { ActionFunction} from 'react-router';
-import type { ProjectForm } from "@/types";
+import type { ProjectForm, Project } from "@/types";
 import type { Models } from "appwrite";
 import { databases } from '@/lib/appwrite';
 import { generateID, getUserId } from '@/lib/utils';
@@ -22,7 +22,7 @@ const createProject = async (data: ProjectForm) => {
   let aiGeneratedTasks: aiGenTask[] = [];
 
   try {
-    project = await databases.createDocument(
+    project = await databases.createDocument(  // Se crea el proyecto en la base de datos
       APPWRITE_DATABASE_ID,
       "projects",
       generateID(),
@@ -70,13 +70,32 @@ const createProject = async (data: ProjectForm) => {
   return redirect(`/app/projects/${project?.$id}`);
 }
 
+const deleteProject = async (data: Project) => {
+  const documentId = data.id;
+
+  if(!documentId) throw new Error("Project not found");
+
+  try {
+    await databases.deleteDocument(
+      APPWRITE_DATABASE_ID,
+      "projects",
+      documentId,
+    )
+  } catch (error) {
+    console.log("Error deleting project: ", error);
+  }
+}
+
 const projectAction:ActionFunction = async ({ request }) => {
   const method = request.method;
   const data = await request.json();
 
-  console.log(data);
   if(method === "POST"){
     return await createProject(data);
+  }
+
+  if(method === "DELETE"){
+    return await deleteProject(data);
   }
 
   return null;
