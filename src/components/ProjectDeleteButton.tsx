@@ -16,7 +16,7 @@ import { Button } from "./ui/button"
 import { toast } from "sonner"
 import { Trash2 } from "lucide-react"
 import { Project } from "@/types"
-import { de } from "chrono-node"
+
 
 type ProjectDeleteButtonProps = {
   defaultFormData: Project
