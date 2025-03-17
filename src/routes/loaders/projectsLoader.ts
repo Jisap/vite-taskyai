@@ -28,7 +28,11 @@ const getProjects = async() => {
 }
 
 
-const projectsLoader: LoaderFunction = async () => {
+const projectsLoader: LoaderFunction = async ({ request }) => {
+
+  const url = new URL(request.url);
+  console.log(url);
+
   const projects = await getProjects()
   return { projects }
 }

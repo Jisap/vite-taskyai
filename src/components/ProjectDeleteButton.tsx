@@ -23,9 +23,6 @@ type ProjectDeleteButtonProps = {
 }
 
 
-
-
-
 const ProjectDeleteButton:React.FC<ProjectDeleteButtonProps> = ({ defaultFormData }) => {
   
   const fetcher = useFetcher();
