@@ -21,17 +21,18 @@ type DataType = {
 
 const ProjectsPage = () => {
 
-  const loaderData = useLoaderData() as DataType; // Recuperamos los datos del loader (base de datos)
-
-  const { projects } = loaderData;
-
   const fetcher = useFetcher();
-
+  const fetcherData = fetcher.data as DataType;   // Recuperamos los datos del fetcher (base de datos) despues de hacer la petición en el input de búsqueda
+  const loaderData = useLoaderData() as DataType; // Recuperamos los datos del loader (base de datos)
+  
+  const { projects } = fetcherData || loaderData;
+  
   const [searchingState, setSearchingState] = useState<SearchingState>("idle");
 
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const handleProjectSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    
     if(searchTimeout.current) {                           // Limpieza del tiempo de espera anterior
       clearTimeout(searchTimeout.current);
     }
