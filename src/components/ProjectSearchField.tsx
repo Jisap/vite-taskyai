@@ -25,7 +25,7 @@ const ProjectSearchField: React.FC<ProjectSearchFieldProps> = ( { handleChange, 
       <Loader2 
         size={18} 
         className={cn(
-          "absolute top-2 text-muted-foreground pointer-events-none hidden",
+          "absolute top-[9px] right-2 text-muted-foreground pointer-events-none hidden",
           searchingState !== "idle" && "block animate-spin"
         )}  
       />

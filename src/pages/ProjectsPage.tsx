@@ -32,7 +32,7 @@ const ProjectsPage = () => {
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const handleProjectSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    
+
     if(searchTimeout.current) {                           // Limpieza del tiempo de espera anterior
       clearTimeout(searchTimeout.current);
     }
@@ -93,13 +93,19 @@ const ProjectsPage = () => {
             </div>
           </div>
 
-          <div>
+          <div className={cn(searchingState === "searching" && "opacity-25")}>
             {projects.documents.map((project) => (
               <ProjectCard 
                 key={project.$id}
                 project={project}  
               />
             ))}
+
+            {projects.total === 0 && (
+              <div className="h-14 flex justify-center items-center text-muted-foreground">
+                No project found.
+              </div>
+            )}
           </div>
         </PageList>
       </Page>
