@@ -52,7 +52,7 @@ const TopAppBar: React.FC<TopAppBarProps> = ({ title, taskCount }) => {
       )}
       >
         <h1 className="font-semibold truncate">{title}</h1>
-        {Boolean(taskCount) && ( // Si hay tareas, muestra el número de tareas
+        { Boolean(taskCount) && ( // Si hay tareas, muestra el número de tareas 
           <div className="text-xs text-muted-foreground">
             {taskCount} tasks
           </div>
