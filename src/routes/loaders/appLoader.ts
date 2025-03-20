@@ -7,6 +7,11 @@ import type { Models } from 'appwrite';
 
 const APPWRITE_DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID as string
 
+export type AppLoaderData = {
+  projects: Models.DocumentList<Models.Document>;
+}
+
+
 const getProjects = async () => {
   try {
     return await databases.listDocuments(
@@ -40,7 +45,8 @@ const appLoader: LoaderFunction = async () => {
   }
 
   const projects = await getProjects();
-  console.log("projects", projects);
+
+  return { projects };
 }
 
 export default appLoader;
