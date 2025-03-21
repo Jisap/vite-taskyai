@@ -16,7 +16,7 @@ type TaskCounts = {
 
 export type AppLoaderData = {
   projects: Models.DocumentList<Models.Document>;
-  TaskCounts: TaskCounts;
+  taskCounts: TaskCounts;
 }
 
 

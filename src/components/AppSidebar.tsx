@@ -1,6 +1,6 @@
 
 
-import { Link, useLocation } from "react-router"
+import { Link, useLoaderData, useLocation } from "react-router"
 import {
   Sidebar,
   SidebarContent,
@@ -35,6 +35,7 @@ import TaskFormDialog from "./TaskFormDialog"
 import ProjectFormDialog from "./projectFormDialog"
 import { useProjects } from "@/contexts/ProjectContext"
 import ProjectActionMenu from "./ProjectActionMenu"
+import type { AppLoaderData } from "@/routes/loaders/appLoader"
 
 
 
@@ -42,6 +43,7 @@ const AppSidebar = () => {
 
   const location = useLocation();
   const projects = useProjects();
+  const { taskCounts } = useLoaderData()  as AppLoaderData;
   const { isMobile, setOpenMobile } = useSidebar();
 
   return (
@@ -81,7 +83,14 @@ const AppSidebar = () => {
                     </Link>
                   </SidebarMenuButton>
 
-                  <SidebarMenuBadge>0</SidebarMenuBadge>
+                  {item.href === "/app/inbox" && Boolean(taskCounts.inboxTasks) && (
+                    <SidebarMenuBadge>{taskCounts.inboxTasks}</SidebarMenuBadge>
+                  )}
+
+                  {item.href === "/app/today" && Boolean(taskCounts.todayTasks) && (
+                    <SidebarMenuBadge>{taskCounts.todayTasks}</SidebarMenuBadge>
+                  )}
+                  
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
