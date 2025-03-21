@@ -136,12 +136,16 @@ const AppSidebar = () => {
                         </Link>
                       </SidebarMenuButton>
 
-                      <ProjectActionMenu defaultFormData={{
-                        id: $id,
-                        name,
-                        color_name,
-                        color_hex,
-                      }}>
+                      <ProjectActionMenu 
+                        defaultFormData={{
+                          id: $id,
+                          name,
+                          color_name,
+                          color_hex,
+                        }}
+                        side="right"
+                        align="start"
+                      >
                         <SidebarMenuAction 
                           aria-labek="More actions"
                           showOnHover
@@ -152,6 +156,20 @@ const AppSidebar = () => {
                       </ProjectActionMenu>
                     </SidebarMenuItem>
                   ))}
+
+                  {projects !== null && projects.total > 5 && (
+                    <SidebarMenuItem>
+                      <SidebarMenuButton 
+                        asChild
+                        className="text-muted-foreground"
+                        isActive={location.pathname === "/app/projects"}
+                      >
+                        <Link to="/app/projects">
+                        <MoreHorizontal /> All projects
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )}
 
 
                   {!projects?.total && (
