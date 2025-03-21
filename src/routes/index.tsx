@@ -22,6 +22,7 @@ import projectsLoader from "./loaders/projectsLoader";
 import ProjectDetailPage from "@/pages/ProjectDetailPage";
 import projectDetailLoader from "./loaders/projectDetailLoader";
 import appLoader from "./loaders/appLoader";
+import ProjectErrorBoundary from "@/pages/ProjectErrorBoundary";
 
 
 const rootRouteChildren: RouteObject[] = [
@@ -71,7 +72,8 @@ const appRouteChildren: RouteObject[] = [
   },{
     path: "projects/:projectId",
     element: <ProjectDetailPage />,
-    loader: projectDetailLoader
+    loader: projectDetailLoader,
+    errorElement: <ProjectErrorBoundary />,
   }
 ];
 
