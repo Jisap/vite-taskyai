@@ -147,7 +147,7 @@ const AppSidebar = () => {
                         align="start"
                       >
                         <SidebarMenuAction 
-                          aria-labek="More actions"
+                          aria-label="More actions"
                           showOnHover
                           className="bg-sidebar-accent"  
                         >
@@ -163,6 +163,9 @@ const AppSidebar = () => {
                         asChild
                         className="text-muted-foreground"
                         isActive={location.pathname === "/app/projects"}
+                        onClick={() => {
+                          if(isMobile) setOpenMobile(false); // Si estamos en el sidebar en mobile, cerramos el menu al hacer clic en un link
+                        }}
                       >
                         <Link to="/app/projects">
                         <MoreHorizontal /> All projects
