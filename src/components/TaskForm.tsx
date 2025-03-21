@@ -72,7 +72,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [formData, setFormData] = useState(defaultFormData)
   
   useEffect(() => {
-    if(projectId){
+    if(projectId){ // Si el projectId existe, obtengo el nombre y el color del proyecto
       const { name, color_hex } = projects?.documents.find(({ $id }) => projectId === $id) as Models.Document
       setProjectName(name);
       setProjectColorHex(color_hex);
@@ -80,7 +80,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   },[projects, projectId])
 
 
-  useEffect(() => {
+  useEffect(() => { // Cuando cambie el proyecto, actualizo el formulario
     setFormData((prevFormData) => ({
       ...prevFormData,
       content: taskContent,

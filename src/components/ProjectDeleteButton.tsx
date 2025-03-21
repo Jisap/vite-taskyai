@@ -26,8 +26,14 @@ type ProjectDeleteButtonProps = {
 const ProjectDeleteButton:React.FC<ProjectDeleteButtonProps> = ({ defaultFormData }) => {
   
   const fetcher = useFetcher();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleProjectDelete = useCallback(async() => {
+
+    if (location.pathname === `/app/projects/${defaultFormData.id}`) { // Si el proyecto que se está eliminando es el mismo que el proyecto actualmente visible en la URL 
+      navigate("/app/inbox");                                          // volvemos a la página de inbox para evitar ver un proyecto que no existe (404 error)
+    }
 
     const toastId = toast.loading("Deleting Project...", {
       duration: Infinity
