@@ -9,6 +9,7 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarMenuBadge,
@@ -18,7 +19,7 @@ import {
 } from "@/components/ui/sidebar"
 import Logo from "./Logo"
 import { UserButton } from "@clerk/clerk-react"
-import { CirclePlus, Plus, ChevronRight } from "lucide-react"
+import { CirclePlus, Plus, ChevronRight, Hash, MoreHorizontal } from "lucide-react"
 import { SIDEBAR_LINKS } from "@/constants"
 import {
   Collapsible,
@@ -32,12 +33,15 @@ import {
 } from "./ui/tooltip"
 import TaskFormDialog from "./TaskFormDialog"
 import ProjectFormDialog from "./projectFormDialog"
+import { useProjects } from "@/contexts/ProjectContext"
+import ProjectActionMenu from "./ProjectActionMenu"
 
 
 
 const AppSidebar = () => {
 
   const location = useLocation();
+  const projects = useProjects();
   const { isMobile, setOpenMobile } = useSidebar();
 
   return (
@@ -76,6 +80,7 @@ const AppSidebar = () => {
                       <span>{item.label}</span>
                     </Link>
                   </SidebarMenuButton>
+
                   <SidebarMenuBadge>0</SidebarMenuBadge>
                 </SidebarMenuItem>
               ))}
@@ -99,6 +104,7 @@ const AppSidebar = () => {
               </CollapsibleTrigger>
             </SidebarGroupLabel>
 
+            {/* Project create button  */}
             <Tooltip>
               <ProjectFormDialog method="POST">
                 <TooltipTrigger asChild>
@@ -115,11 +121,46 @@ const AppSidebar = () => {
             <CollapsibleContent>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  <SidebarMenuItem>
-                    <p className="text-muted-foreground text-sm p-2">
-                      Click + to add some project.
-                    </p>
-                  </SidebarMenuItem>
+                  {projects?.documents.slice(0, 5).map(({$id, name, color_name, color_hex}) => (
+                    <SidebarMenuItem key={$id}>
+                      <SidebarMenuButton 
+                        asChild
+                        isActive={location.pathname === `/app/projects/${$id}`}
+                        onClick={() => {
+                          if(isMobile) setOpenMobile(false); // Si estamos en el sidebar en mobile, cerramos el menu al hacer clic en un link
+                        }}
+                      >
+                        <Link to={`/app/projects/${$id}`}>
+                          <Hash color={color_hex} />
+                          <span>{name}</span>
+                        </Link>
+                      </SidebarMenuButton>
+
+                      <ProjectActionMenu defaultFormData={{
+                        id: $id,
+                        name,
+                        color_name,
+                        color_hex,
+                      }}>
+                        <SidebarMenuAction 
+                          aria-labek="More actions"
+                          showOnHover
+                          className="bg-sidebar-accent"  
+                        >
+                          <MoreHorizontal />
+                        </SidebarMenuAction>
+                      </ProjectActionMenu>
+                    </SidebarMenuItem>
+                  ))}
+
+
+                  {!projects?.total && (
+                    <SidebarMenuItem>
+                      <p className="text-muted-foreground text-sm p-2">
+                        Click + to add some project.
+                      </p>
+                    </SidebarMenuItem>
+                  )}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>
