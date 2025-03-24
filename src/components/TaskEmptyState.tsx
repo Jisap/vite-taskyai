@@ -11,9 +11,9 @@ import {
 
 type EmptyStateType = "today" | "inbox" | "upcoming" | "completed" | "project";
 
-interface todayTaskEmptyStateProps {
-  type?: EmptyStateType;
-}
+// interface todayTaskEmptyStateProps {
+//   type?: EmptyStateType;
+// }
 
 interface EmptyStateContent {
   img?:{
