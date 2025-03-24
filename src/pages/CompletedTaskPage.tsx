@@ -5,8 +5,6 @@ import TaskEmptyState from "@/components/TaskEmptyState"
 import { useLoaderData } from "react-router"
 import { Models } from "appwrite"
 import TaskCard from "@/components/TaskCard"
-import { CheckCircle2 } from "lucide-react"
-
 
 
 

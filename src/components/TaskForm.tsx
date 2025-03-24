@@ -63,7 +63,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
 
   const [taskContent, setTaskContent] = useState(defaultFormData.content)
   const [dueDate, setDueDate] = useState(defaultFormData.due_date)
-  const [project, setProject] = useState(defaultFormData.project)
+  const [project] = useState(defaultFormData.project)
   const [projectName, setProjectName] = useState("");
   const [projectId, setProjectId] = useState(defaultFormData.project);
   const [projectColorHex, setProjectColorHex] = useState("");
